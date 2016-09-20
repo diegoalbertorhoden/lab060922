@@ -8,7 +8,11 @@ import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.MessageListener;
 import javax.jms.ObjectMessage;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
+import br.diego.classes.Log;
+import br.diego.classes.TimeStamp;
 import br.diego.classes.Venda;
 
 @MessageDriven(name = "MdbLog", activationConfig = {
@@ -19,7 +23,8 @@ import br.diego.classes.Venda;
 
 
 public class MdbLog implements MessageListener {
-
+	@PersistenceContext(unitName="default")
+	private EntityManager em;
 	private final static Logger LOGGER = Logger.getLogger(MdbLog.class.toString());
 
 	@Override
@@ -29,19 +34,24 @@ public class MdbLog implements MessageListener {
 		try{
 			if(receiveMessage instanceof ObjectMessage){
 				mensagem = (ObjectMessage) receiveMessage;
+				//essa instancia tá aqui pq o Jms obriga? estranho PESQUISAR
 				Venda venda = (Venda) mensagem.getObject();
+
+				//tentativa de gravação de log APAGAR
+				Log log = new Log();
+				log.setNome("MdbLog");
+				log.setInformacao(" transaçao no mdb log concluida...");
+				log.setData(new TimeStamp().pegaData());
+				log.setHora(new TimeStamp().pegaHora());
+				//gravar o log
+				em.persist(log);
+
+
 			}else{
-				LOGGER.warning("message of wrong type: " +receiveMessage);
+				LOGGER.warning("Pode ter ocorrido um erro no MdbLog... " +receiveMessage);
 			}
 		}catch (JMSException e){
 			throw new RuntimeException(e);
 		}			
 	}
-
-	//	@Override
-	//	public void onMessage(Message arg0) {
-	//		// TODO Auto-generated method stub
-	//
-	//	}
-
 }

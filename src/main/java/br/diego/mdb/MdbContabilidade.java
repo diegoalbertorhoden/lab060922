@@ -8,7 +8,11 @@ import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.MessageListener;
 import javax.jms.ObjectMessage;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
+import br.diego.classes.Log;
+import br.diego.classes.TimeStamp;
 import br.diego.classes.Venda;
 
 
@@ -20,24 +24,53 @@ import br.diego.classes.Venda;
 
 public class MdbContabilidade implements MessageListener {
 
-
 	private final static Logger LOGGER = Logger.getLogger(MdbContabilidade.class.toString());
+	@PersistenceContext(unitName="default")
+	private EntityManager em;
+	//	private final static Logger LOGGER = Logger.getLogger(MdbLogistica.class.toString());
+	public void onMessage(Message rcvMessage) {
+		ObjectMessage msg = null;
+		try {
+			if (rcvMessage instanceof ObjectMessage) {
+				msg = (ObjectMessage) rcvMessage;
 
-	@Override
-	public void onMessage(Message receiveMessage) {
-		//trecho passado pelo professor em sala...
-		ObjectMessage mensagem = null;
-		try{
-			if(receiveMessage instanceof ObjectMessage){
-				mensagem = (ObjectMessage) receiveMessage;
-				Venda venda = (Venda) mensagem.getObject();
-			}else{
-				LOGGER.warning("message of wrong type: " +receiveMessage);
+				Venda venda = (Venda) msg.getObject();
+
+				//momento da msg recebida aparecer na tela...
+				Log log = new Log();
+				log.setNome("MdbContabilidade");
+				log.setInformacao("transacao no mdb contabilidade ok...");
+				log.setData(new TimeStamp().pegaData());
+				log.setHora(new TimeStamp().pegaHora());
+
+				em.persist(log);
+
+			} else {
+				LOGGER.warning("Pode ter ocorrido um erro no mdb contabilidade... " + rcvMessage.getClass().getName());
 			}
-		}catch (JMSException e){
-			throw new RuntimeException(e);
-		}			
+		} catch (JMSException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
+
+	//	private final static Logger LOGGER = Logger.getLogger(MdbContabilidade.class.toString());
+	//
+	//	@Override
+	//	public void onMessage(Message receiveMessage) {
+	//		//trecho passado pelo professor em sala...
+	//		ObjectMessage mensagem = null;
+	//		try{
+	//			if(receiveMessage instanceof ObjectMessage){
+	//				mensagem = (ObjectMessage) receiveMessage;
+	//				Venda venda = (Venda) mensagem.getObject();
+	//			}else{
+	//				LOGGER.warning("message of wrong type: " +receiveMessage);
+	//			}
+	//		}catch (JMSException e){
+	//			throw new RuntimeException(e);
+	//		}			
+	//	}
 	//	@Override
 	//	public void onMessage(Message arg0) {
 	//		// TODO Auto-generated method stub
