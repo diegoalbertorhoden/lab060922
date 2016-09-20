@@ -30,7 +30,7 @@ public class MdbVenda implements MessageListener {
 				mensagem = (ObjectMessage) receiveMessage;
 				Venda venda = (Venda) mensagem.getObject();
 			}else{
-				LOGGER.warning("message of wrong type: " +receiveMessage);
+				LOGGER.warning("passando pelo mdb venda... " +receiveMessage);
 			}
 		}catch (JMSException e){
 			throw new RuntimeException(e);

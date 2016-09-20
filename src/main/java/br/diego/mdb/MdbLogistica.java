@@ -23,8 +23,8 @@ public class MdbLogistica implements MessageListener {
 			if (rcvMessage instanceof TextMessage) {
 				msg = (TextMessage) rcvMessage;
 				//momento da msg recebida aparecer na tela...
-				LOGGER.info("Received Message from queue: " + msg.getText());
-								
+				LOGGER.info("passando pelo mdb logistica... " + msg.getText());
+
 				try {
 					Thread.sleep(3000);
 				} catch (InterruptedException e) {
@@ -32,7 +32,7 @@ public class MdbLogistica implements MessageListener {
 					e.printStackTrace();
 				}
 				System.out.println ("Entrega finalizada com sucesso!");
-				
+
 			} else {
 				LOGGER.warning("Message of wrong type: " + rcvMessage.getClass().getName());
 			}

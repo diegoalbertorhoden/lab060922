@@ -10,16 +10,17 @@ public class Venda implements Serializable{
 
 	private int idVenda;
 
-	private int quantidade;
 	private String cliente;
 	private BigDecimal total;
 	private List<String> lista;
-	public int getQuantidade() {
-		return quantidade;
+
+	public Venda(int idVenda, List<String> lista, BigDecimal total){
+		this.idVenda = idVenda;
+		this.lista = lista;
+		this.total = total;
+
 	}
-	public void setQuantidade(int quantidade) {
-		this.quantidade = quantidade;
-	}
+
 	public BigDecimal getTotal() {
 		return total;
 	}
