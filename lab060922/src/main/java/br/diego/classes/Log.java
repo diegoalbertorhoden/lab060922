@@ -20,14 +20,14 @@ public class Log implements Serializable{
 	private Long registro;
 	@Column
 	private String nome;
-	
+
 	@Column
 	private String informacao;
 	@Column
 	private String hora;
 	@Column
 	private String data;
-	
+
 	public Long getRegistro() {
 		return registro;
 	}
@@ -59,7 +59,7 @@ public class Log implements Serializable{
 		this.data = data;
 	}
 
-	
+
 
 
 }

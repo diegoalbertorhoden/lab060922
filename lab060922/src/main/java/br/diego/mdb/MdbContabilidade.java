@@ -15,19 +15,19 @@ import br.diego.classes.Log;
 import br.diego.classes.TimeStamp;
 import br.diego.classes.Venda;
 
-
 @MessageDriven(name = "MdbContabilidade", activationConfig = {
 		@ActivationConfigProperty(propertyName = "destinationLookup", propertyValue = "topic/TopicVenda"),
 		@ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Topic"),
-		@ActivationConfigProperty(propertyName = "acknowledgeMode", propertyValue = "Auto-acknowledge")
-})
+		@ActivationConfigProperty(propertyName = "acknowledgeMode", propertyValue = "Auto-acknowledge") })
 
 public class MdbContabilidade implements MessageListener {
 
 	private final static Logger LOGGER = Logger.getLogger(MdbContabilidade.class.toString());
-	@PersistenceContext(unitName="default")
+	@PersistenceContext(unitName = "default")
 	private EntityManager em;
-	//	private final static Logger LOGGER = Logger.getLogger(MdbLogistica.class.toString());
+
+	// private final static Logger LOGGER =
+	// Logger.getLogger(MdbLogistica.class.toString());
 	public void onMessage(Message rcvMessage) {
 		ObjectMessage msg = null;
 		try {
@@ -36,7 +36,7 @@ public class MdbContabilidade implements MessageListener {
 
 				Venda venda = (Venda) msg.getObject();
 
-				//momento da msg recebida aparecer na tela...
+				// momento da msg recebida aparecer na tela...
 				Log log = new Log();
 				log.setNome("MdbContabilidade");
 				log.setInformacao("transacao no mdb contabilidade ok...");
@@ -54,27 +54,28 @@ public class MdbContabilidade implements MessageListener {
 		}
 	}
 
-	//	private final static Logger LOGGER = Logger.getLogger(MdbContabilidade.class.toString());
+	// private final static Logger LOGGER =
+	// Logger.getLogger(MdbContabilidade.class.toString());
 	//
-	//	@Override
-	//	public void onMessage(Message receiveMessage) {
-	//		//trecho passado pelo professor em sala...
-	//		ObjectMessage mensagem = null;
-	//		try{
-	//			if(receiveMessage instanceof ObjectMessage){
-	//				mensagem = (ObjectMessage) receiveMessage;
-	//				Venda venda = (Venda) mensagem.getObject();
-	//			}else{
-	//				LOGGER.warning("message of wrong type: " +receiveMessage);
-	//			}
-	//		}catch (JMSException e){
-	//			throw new RuntimeException(e);
-	//		}			
-	//	}
-	//	@Override
-	//	public void onMessage(Message arg0) {
-	//		// TODO Auto-generated method stub
+	// @Override
+	// public void onMessage(Message receiveMessage) {
+	// //trecho passado pelo professor em sala...
+	// ObjectMessage mensagem = null;
+	// try{
+	// if(receiveMessage instanceof ObjectMessage){
+	// mensagem = (ObjectMessage) receiveMessage;
+	// Venda venda = (Venda) mensagem.getObject();
+	// }else{
+	// LOGGER.warning("message of wrong type: " +receiveMessage);
+	// }
+	// }catch (JMSException e){
+	// throw new RuntimeException(e);
+	// }
+	// }
+	// @Override
+	// public void onMessage(Message arg0) {
+	// // TODO Auto-generated method stub
 	//
-	//	}
+	// }
 
 }

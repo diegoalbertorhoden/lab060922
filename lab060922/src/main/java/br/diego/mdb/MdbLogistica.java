@@ -19,14 +19,15 @@ import br.diego.classes.TimeStamp;
 		@ActivationConfigProperty(propertyName = "acknowledgeMode", propertyValue = "Auto-acknowledge") })
 
 public class MdbLogistica implements MessageListener {
-	@PersistenceContext(unitName="default")
+	@PersistenceContext(unitName = "default")
 	private EntityManager em;
 	private final static Logger LOGGER = Logger.getLogger(MdbLogistica.class.toString());
+
 	public void onMessage(Message rcvMessage) {
 		ObjectMessage msg = null;
 		if (rcvMessage instanceof ObjectMessage) {
 			msg = (ObjectMessage) rcvMessage;
-			//momento da msg recebida aparecer na tela...
+			// momento da msg recebida aparecer na tela...
 			Log log = new Log();
 			log.setNome("MdbLogistica");
 			log.setInformacao("transacao no mdb logistica ok...");
@@ -41,9 +42,9 @@ public class MdbLogistica implements MessageListener {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			System.out.println ("Entrega finalizada com sucesso!");
+			System.out.println("Entrega finalizada com sucesso!");
 			em.persist(log);
-			
+
 		} else {
 			LOGGER.warning("Pode ter ocorrido um erro no mdb logistica... " + rcvMessage.getClass().getName());
 		}

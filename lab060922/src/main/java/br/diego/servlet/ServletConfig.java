@@ -30,7 +30,7 @@ import javax.servlet.http.HttpServletResponse;
 		})
 
 
-@WebServlet("/config")
+@WebServlet(value = "/config")
 public class ServletConfig extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;

@@ -13,18 +13,18 @@ import br.diego.classes.Venda;
 
 @Stateless
 public class ProcessVenda {
-	
+
 	@Inject
 	private JMSContext context;
 	@Resource(lookup="java:/topic/TopicVenda")
 	private Topic topicVenda;
-	
+
 	public void processarVenda(Venda venda){
-		
+
 		System.out.println("chegou no EJB de venda");
 		final Destination destination = topicVenda;
 		ObjectMessage mensagem = context.createObjectMessage();
-		
+
 		try{
 			mensagem.setObject(venda);
 			context.createProducer().send(destination, mensagem);

@@ -8,7 +8,7 @@ import br.diego.WsEntregaClient.WsEntregaService;
 
 public class TesteEntrega {
 	public static void main(String[] args) throws IOException_Exception, ServletException_Exception {
-//batata
+		//batata
 		WsEntregaService testeEntrega = new WsEntregaService();
 		WsEntrega destino = testeEntrega.getWsEntregaPort();
 		Entrega pacote = destino.fecharEntrega();
